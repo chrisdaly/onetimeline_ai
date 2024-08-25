@@ -3,6 +3,7 @@ import Link from "next/link";
 import Login from "./Login";
 import SessionProvider from "./SessionProvider";
 import { authOptions } from "./[...nextauth]";
+import Image from "next/image";
 
 import "./globals.css";
 
@@ -32,7 +33,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               </a>
             </Link>
           </div>
-          {session ? <img src={session?.user?.image} alt="Custom Avatar" className="w-10 h-10 rounded-full mr-2" /> : null}
+          {/* {session ? <Image src={session?.user?.image} alt="Custom Avatar" className="w-10 h-10 rounded-full mr-2" /> : null} */}
         </nav>
 
         <SessionProvider session={session}>{!session ? <Login /> : children}</SessionProvider>

@@ -4,11 +4,7 @@ import { useSession } from "next-auth/react";
 import axios from "axios";
 import GanttChart from "./components/GanttChart"; // Import the GanttChart component
 
-interface PageProps {
-  children?: React.ReactNode;
-}
-
-const Page: React.FC = ({ children }) => {
+export default function Page({ children }: { children?: React.ReactNode }) {
   const { data: session } = useSession();
   const [prompt, setPrompt] = useState<string>(
     "I am planning a software development project to build a new web application. The project should start with the initial planning phase next Monday, followed by the design phase starting two weeks later. One week after the design phase begins, we will start the development phase. The development phase should take three weeks. After development, we will enter the testing phase, which should last two weeks. Finally, we will have a deployment phase that will start one week after testing begins and should be completed in three days."
@@ -84,6 +80,6 @@ const Page: React.FC = ({ children }) => {
       </main>
     </div>
   );
-};
+}
 
 export default Page;
