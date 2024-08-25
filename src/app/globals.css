@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "B612_Mono";
+  src: url("/fonts/B612_Mono/B612Mono-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "DM_Serif_Text";
+  src: url("/fonts/DM_Serif_Text/DMSerifText-Regular.ttf") format("truetype");
+}
+
+* {
+  font-family: "DM_Serif_Text", sans-serif;
+}
+
+text {
+  font-family: "DM_Serif_Text" !important;
+}
+
+.code {
+  font-family: "B612_Mono" !important;
+}
+
+.logo {
+  font-family: "B612_Mono";
+}
+
+.navbar {
+  justify-content: space-between;
+  /* padding: 1rem; */
+}
+
+.footer-logo {
+  margin-bottom: 1rem;
+}
+
+.footer-sections {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  width: 100%;
+}
+
+.footer-title {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
