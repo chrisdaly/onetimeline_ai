@@ -4,7 +4,11 @@ import { useSession } from "next-auth/react";
 import axios from "axios";
 import GanttChart from "./components/GanttChart"; // Import the GanttChart component
 
-export default function PageLayout({ children }: { children?: React.ReactNode }) {
+interface PageProps {
+  children?: React.ReactNode;
+}
+
+const Page: React.FC = ({ children }) => {
   const { data: session } = useSession();
   const [prompt, setPrompt] = useState<string>(
     "I am planning a software development project to build a new web application. The project should start with the initial planning phase next Monday, followed by the design phase starting two weeks later. One week after the design phase begins, we will start the development phase. The development phase should take three weeks. After development, we will enter the testing phase, which should last two weeks. Finally, we will have a deployment phase that will start one week after testing begins and should be completed in three days."
@@ -19,7 +23,6 @@ export default function PageLayout({ children }: { children?: React.ReactNode })
       const result = await axios.post("/api/chatgpt", { prompt });
       setResponse(result.data.content); // Adjust based on response structure
       setEditableJson(JSON.stringify(result.data.content, null, 2)); // Convert response to a formatted JSON string
-      console.log("result.data.content", typeof result.data.content);
     } catch (error) {
       console.error("Error fetching response:", error);
       setResponse([]);
@@ -40,51 +43,47 @@ export default function PageLayout({ children }: { children?: React.ReactNode })
   };
 
   return (
-    <div className="min-h-[calc(100vh-64px)] flex flex-col">
-      {" "}
+    <div className="min-h-screen flex flex-col">
       {/* Adjusted height for parent container */}
-      <main className="flex flex-1 p-4 pt-0 gap-4 overflow-auto">
+      <main className="flex flex-1 p-4 gap-4 overflow-auto">
         <div className="flex flex-col md:flex-row flex-1 gap-4">
           {/* Column 1: Input Section */}
-          <div className="flex-1 bg-gray-100 p-4 rounded shadow-md flex flex-col ">
+          <div className="flex-1 bg-gray-100 p-4 rounded shadow-md flex flex-col">
             <h1 className="text-lg font-semibold mb-4">Prompt</h1>
             <div className="flex-1 flex flex-col">
               <textarea className="w-full bg-white mb-4 p-2 border border-gray-300 rounded resize-none" placeholder="Enter text here..." value={prompt} onChange={(e) => setPrompt(e.target.value)} rows={10} />
-              <button className="w-full bg-purple-600 text-white py-2 rounded hover:bg-purple-700 code" onClick={handleGenerate} disabled={loading}>
+              <button className="w-full bg-purple-600 text-white py-2 rounded hover:bg-purple-700" onClick={handleGenerate} disabled={loading}>
                 {loading ? "Generating..." : "Generate ✨"}
               </button>
             </div>
           </div>
 
           {/* Column 2: JSON Editor Section */}
-          <div className="flex-1 bg-gray-100 p-4 rounded shadow-md flex flex-col ">
+          <div className="flex-1 bg-gray-100 p-4 rounded shadow-md flex flex-col">
             <h1 className="text-lg font-semibold mb-4">Data Editor</h1>
             <div className="flex-1 flex flex-col">
               <textarea
-                className="w-full bg-white mb-4 p-2 border border-gray-300 rounded resize-none code"
+                className="w-full bg-white mb-4 p-2 border border-gray-300 rounded resize-none"
                 value={editableJson}
                 onChange={(e) => setEditableJson(e.target.value)}
                 rows={10}
                 style={{ maxHeight: "60vh" }} // Limit height of the textarea
               />
-
-              <button className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 code" onClick={handleConfirmChanges}>
-                {response ? "Validate ✓" : "_  "}
+              <button className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700" onClick={handleConfirmChanges}>
+                {response ? "Validate ✓" : "Validate"}
               </button>
             </div>
           </div>
 
           {/* Column 3: Gantt Chart Section */}
-          <div className="flex-1 bg-gray-100 p-4 rounded shadow-md flex flex-col ">
+          <div className="flex-1 bg-gray-100 p-4 rounded shadow-md flex flex-col">
             <h1 className="text-lg font-semibold mb-4">Gantt Chart</h1>
-            {response && !loading && (
-              <div className="mt-4 p-2 bg-gray-200 border border-gray-300 rounded h-full">
-                <GanttChart data={response} />
-              </div>
-            )}
+            <div className="flex-1 overflow-auto">{response && !loading && <GanttChart data={response} />}</div>
           </div>
         </div>
       </main>
     </div>
   );
-}
+};
+
+export default Page;
