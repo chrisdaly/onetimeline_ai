@@ -7,7 +7,7 @@ import Image from "next/image";
 
 import "./globals.css";
 
-export const metadata = {
+const metadata = {
   title: "OneTimeLine Template",
   description: "Using Design and Ai to create the Perfect Timeline ",
 };
